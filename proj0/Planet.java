@@ -80,4 +80,18 @@ public class Planet {
         }
         return net;
     }
+
+    public void update(double dt,double fx,double fy){
+        this.xxVel +=dt * (fx/this.mass);
+        this.yyVel += dt* (fy/this.mass);
+        this.xxPos += dt * (xxVel);
+        this.yyPos += dt * (yyVel);
+    }
+
+    // TODO
+    public void draw() {
+        String planetTODraw = "./images/" + this.imgFileName;
+        StdDraw.picture(this.xxPos, this.yyPos, planetTODraw);
+        StdDraw.show();
+    }
 }
