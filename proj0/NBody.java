@@ -1,13 +1,13 @@
 public class NBody {
     public static double readRadius(String filename) {
-        In in = new In("./data/planets.txt");
+        In in = new In(filename);// 这里这么写的话要这个参数干嘛，肯定不对啊
         in.readInt();
         double readRadius = in.readDouble();
         return readRadius;
     }
 
     public static Planet[] readPlanets(String filename) {
-        In in = new In("./data/planets.txt");
+        In in = new In(filename);
         int numbersofplanets = in.readInt();
         in.readDouble(); // radius
         Planet[] planets = new Planet[numbersofplanets];
@@ -40,12 +40,13 @@ public class NBody {
         StdDraw.setScale(-universeradius, universeradius);
         StdDraw.clear();
         String starfield = "./images/starfield.jpg";
-
         StdDraw.picture(0, 0, starfield);
-        StdDraw.show();
+
+        StdDraw.enableDoubleBuffering();
 
         // Loop til the total time T
-        for (int t = 0; t < T; t++) {
+        double t = 0;
+        while (t <= T) {
             double[] xForces = new double[numbersofplanets];
             double[] yForces = new double[numbersofplanets];
             for (int i = 0; i < numbersofplanets; i++) {
@@ -53,11 +54,27 @@ public class NBody {
                 yForces[i] = planets[i].calcNetForceExertedByY(planets);
                 // planets[i].update();
             }
+
+            for (int i = 0; i < numbersofplanets; i++) {
+                planets[i].update(dt, xForces[i], yForces[i]);
+            }
+
+            StdDraw.picture(0, 0, starfield);
+
+            for (int i = 0; i < numbersofplanets; i++) {
+                planets[i].draw();
+            }
+            StdDraw.show();
+            StdDraw.pause(10);
+            t += dt;
         }
-        // TODO
-        // for(Planet p : planets){
-        // System.out.println(p.imgFileName);
-        // p.draw();
-        // }
+
+        StdOut.printf("%d\n", planets.length);
+        StdOut.printf("%.2e\n", universeradius);
+        for (int i = 0; i < planets.length; i++) {
+            StdOut.printf("%11.4e %11.4e %11.4e %11.4e %11.4e %12s\n",
+                    planets[i].xxPos, planets[i].yyPos, planets[i].xxVel,
+                    planets[i].yyVel, planets[i].mass, planets[i].imgFileName);
+        }
     }
 }
