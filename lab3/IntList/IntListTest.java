@@ -21,7 +21,7 @@ public class IntListTest {
     }
 
     @Test
-    public void testdSquareList() {
+    public void testSquareList() {
         IntList L = IntList.of(1, 2, 3);
         IntList.dSquareList(L);
         assertEquals(IntList.of(1, 4, 9), L);
@@ -41,7 +41,7 @@ public class IntListTest {
      */
 
     @Test
-    public void testSquareListRecursive() {
+    public void testdSquareListRecursive() {
         IntList L = IntList.of(1, 2, 3);
         IntList res = IntList.squareListRecursive(L);
         assertEquals(IntList.of(1, 2, 3), L);
@@ -70,4 +70,13 @@ public class IntListTest {
       * to add a main method. See ArithmeticTest.java for an
       * example. */
 
+    @Test
+    public void testReverse() {
+        IntList A = IntList.of(1, 2, 3);
+        IntList B = IntList.reverse(A);
+        IntList C = IntList.of(3, 2, 1);
+        assertEquals(B, C);
+        assertEquals(null, IntList.reverse(null));
+        assertNotEquals(A, B);
+    }
 }
